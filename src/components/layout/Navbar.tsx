@@ -57,7 +57,7 @@ export function Navbar() {
             </button>
           </div>
 
-          <Logo className="text-[26px] lg:text-[30px]" />
+          <Logo className="text-[25px] lg:text-[29px]" />
 
           <ul className="hidden items-center gap-5 lg:flex xl:gap-7">
             {navLinks.map((l) => {
@@ -122,7 +122,7 @@ export function Navbar() {
             aria-label={t("a11y.menu")}
           >
             <div className="flex h-16 items-center justify-between px-4">
-              <Logo className="text-[26px]" />
+              <Logo className="text-[25px]" />
               <button onClick={() => setMenuOpen(false)} aria-label={t("a11y.closeMenu")} className="-mr-2 grid size-11 place-items-center">
                 <X className="size-6" />
               </button>

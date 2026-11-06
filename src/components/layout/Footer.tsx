@@ -49,7 +49,7 @@ export function Footer() {
       <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-10">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <Logo className="text-5xl" withDomain />
+            <Logo className="text-[64px] sm:text-[80px]" />
             <p className="mt-4 max-w-sm text-sm text-ash">{t("footer.tagline")}</p>
             <div className="mt-8">
               <Newsletter />

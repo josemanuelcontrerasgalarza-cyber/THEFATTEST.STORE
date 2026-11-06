@@ -1,12 +1,30 @@
 import Link from "next/link";
 import { cn } from "@/lib/format";
 
-export function Logo({ className, withDomain = false }: { className?: string; withDomain?: boolean }) {
+/**
+ * Stacked typographic logo:
+ *   THE
+ *   FATTEST
+ *   ■ .STORE
+ * Scale it with a font-size class (e.g. "text-[26px]"); every line is sized in em.
+ */
+export function Logo({ className }: { className?: string }) {
   return (
-    <Link href="/" aria-label="THEFATTEST — inicio" className={cn("group inline-flex items-baseline font-display leading-none tracking-tight", className)}>
-      <span>THE</span>
-      <span className="transition-colors duration-300 group-hover:text-acid">FATTEST</span>
-      {withDomain ? <span className="ml-1 font-mono text-[0.35em] tracking-[0.2em] text-ash">.STORE</span> : <span className="ml-0.5 inline-block size-[0.18em] translate-y-[-0.05em] bg-acid" aria-hidden />}
+    <Link
+      href="/"
+      aria-label="THEFATTEST.STORE — inicio"
+      className={cn("group inline-flex w-max flex-col items-start font-display uppercase leading-none", className)}
+    >
+      <span className="mb-[0.1em] text-[0.42em] leading-none tracking-[0.18em]" aria-hidden>
+        THE
+      </span>
+      <span className="text-[1em] leading-[0.8] tracking-tight transition-colors duration-300 group-hover:text-acid" aria-hidden>
+        FATTEST
+      </span>
+      <span className="mt-[0.2em] flex items-center gap-[0.35em] font-mono text-[0.3em] font-medium leading-none tracking-[0.42em] text-white/70" aria-hidden>
+        <span className="inline-block size-[0.7em] bg-acid" />
+        .STORE
+      </span>
     </Link>
   );
 }
