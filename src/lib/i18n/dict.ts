@@ -294,6 +294,7 @@ export const en: Dict = {
     Negro: "Black", Blanco: "White", Cemento: "Cement", Oliva: "Olive", Arena: "Sand", "Índigo": "Indigo", Plata: "Silver", Oro: "Gold",
     "Azul claro": "Light blue", Café: "Brown", Vino: "Burgundy", "Azul rey": "Royal blue", "Gris jaspe": "Heather grey", "Azul oscuro": "Navy",
     Verde: "Green", "Negro / Rojo": "Black / Red", "Negro / Blanco": "Black / White",
+    Rojo: "Red", "Negro / Gris / Fucsia": "Black / Grey / Fuchsia", "Negro / Amarillo": "Black / Yellow", "Blanco / Rojo": "White / Red", "Crema / Rojo": "Cream / Red",
   },
   sizes: { "ÚNICA": "ONE SIZE" },
 };
