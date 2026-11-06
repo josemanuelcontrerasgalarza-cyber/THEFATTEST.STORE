@@ -87,7 +87,6 @@ export function Catalog({ initial }: { initial: Filters }) {
         <div className="space-y-2">
           {[
             { k: "onlyNew" as const, label: t("shop.onlyNew") },
-            { k: "onlySale" as const, label: t("shop.onlySale") },
             { k: "inStock" as const, label: t("shop.inStock") },
           ].map((o) => (
             <label key={o.k} className="flex cursor-pointer items-center gap-3 text-sm text-white/80 hover:text-bone">

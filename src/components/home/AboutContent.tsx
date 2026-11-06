@@ -31,9 +31,9 @@ export function AboutContent() {
       </section>
 
       <div className="grid h-[52vh] grid-cols-3 gap-1 sm:h-[80vh]">
-        {["1523398002811-999ca8dec234", "1614495039153-e9cd13240469", "1578681994506-b8f463449011"].map((id, i) => (
+        {["/products/hellstar-heaven-black.jpg", "/products/jordan13-blackcat.jpg", "/products/offwhite-scribble.jpg"].map((id, i) => (
           <div key={id} className={`relative overflow-hidden ${i === 1 ? "translate-y-6 sm:translate-y-8" : ""}`}>
-            <Image src={`https://images.unsplash.com/photo-${id}?fit=crop`} alt={t("about.alt")} fill sizes="33vw" className="object-cover grayscale contrast-125" />
+            <Image src={id} alt={t("about.alt")} fill sizes="33vw" className="object-cover" />
           </div>
         ))}
       </div>

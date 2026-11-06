@@ -7,7 +7,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDownRight } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-const HERO = "https://images.unsplash.com/photo-1523398002811-999ca8dec234?fit=crop&crop=faces";
+const HERO = "/products/jordan4-thunder.jpg";
 
 const lineV = {
   hidden: { y: "105%" },
@@ -27,7 +27,7 @@ export function Hero() {
       {/* Image */}
       <motion.div style={{ y: imgY }} className="absolute inset-0 -z-10 lg:left-[38%]">
         <motion.div initial={{ scale: 1.15, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }} className="absolute inset-0">
-          <Image src={HERO} alt={t("hero.alt")} fill priority sizes="(max-width: 1024px) 100vw, 62vw" className="object-cover object-[60%_20%] contrast-[1.15] grayscale" />
+          <Image src={HERO} alt={t("hero.alt")} fill priority sizes="(max-width: 1024px) 100vw, 62vw" className="object-cover object-[55%_40%] contrast-[1.05] saturate-[1.1]" />
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-ink/30 lg:bg-gradient-to-r lg:from-ink lg:via-ink/50 lg:to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />

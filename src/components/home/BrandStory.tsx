@@ -6,9 +6,9 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useI18n } from "@/lib/i18n";
 
-const A = "https://images.unsplash.com/photo-1578681994506-b8f463449011?fit=crop";
-const B = "https://images.unsplash.com/photo-1614495039153-e9cd13240469?fit=crop";
-const C = "https://images.unsplash.com/photo-1527010154944-f2241763d806?fit=crop";
+const A = "/products/amiri-back.jpg";
+const B = "/products/kenzo-tiger.jpg";
+const C = "/products/lv-skate-black.jpg";
 
 export function BrandStory() {
   const { t } = useI18n();
@@ -44,13 +44,13 @@ export function BrandStory() {
 
         <div className="relative h-[480px] sm:h-[720px] lg:col-span-6 lg:h-[860px]">
           <motion.div style={{ y: y1 }} className="absolute right-0 top-0 h-[62%] w-[68%] overflow-hidden">
-            <Image src={B} alt={t("story.altB")} fill sizes="(max-width:1024px) 70vw, 35vw" className="object-cover grayscale contrast-125" />
+            <Image src={B} alt={t("story.altB")} fill sizes="(max-width:1024px) 70vw, 35vw" className="object-cover" />
           </motion.div>
           <motion.div style={{ y: y2 }} className="absolute bottom-0 left-0 h-[52%] w-[54%] overflow-hidden border-8 border-ink">
-            <Image src={A} alt={t("story.altA")} fill sizes="(max-width:1024px) 55vw, 28vw" className="object-cover grayscale contrast-125" />
+            <Image src={A} alt={t("story.altA")} fill sizes="(max-width:1024px) 55vw, 28vw" className="object-cover" />
           </motion.div>
           <motion.div style={{ y: y1 }} className="absolute bottom-[8%] right-[4%] hidden h-[26%] w-[30%] overflow-hidden sm:block">
-            <Image src={C} alt={t("story.altC")} fill sizes="20vw" className="object-cover grayscale contrast-125" />
+            <Image src={C} alt={t("story.altC")} fill sizes="20vw" className="object-cover" />
           </motion.div>
           <p className="absolute left-0 top-4 font-mono text-[10px] tracking-[0.3em] text-ash [writing-mode:vertical-rl]">{t("story.est")}</p>
         </div>

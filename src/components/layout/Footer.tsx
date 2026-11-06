@@ -18,7 +18,6 @@ const cols = () => [
       { label: "cat:buzos", href: "/shop?cat=buzos" },
       { label: "cat:conjuntos", href: "/shop?cat=conjuntos" },
       { label: "cat:sneakers", href: "/shop?cat=sneakers" },
-      { label: "footer.sale", href: "/shop?sale=1" },
     ],
   },
   {

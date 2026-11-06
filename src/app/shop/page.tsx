@@ -10,7 +10,7 @@ export async function generateMetadata({ searchParams }: Props): Promise<Metadat
   const title = f.cats.length === 1 ? getCategory(f.cats[0])?.label ?? "Tienda" : f.onlyNew ? "Lo nuevo" : "Tienda — Catálogo completo";
   return {
     title,
-    description: "Catálogo THEFATTEST: camisetas, buzos, chaquetas, jeans, cargos, conjuntos, tenis, accesorios, joyería y perfumería. Envíos a toda Colombia.",
+    description: "Catálogo THEFATTEST: camisetas, buzos, conjuntos y tenis. Envíos a toda Colombia.",
     alternates: { canonical: "/shop" },
   };
 }

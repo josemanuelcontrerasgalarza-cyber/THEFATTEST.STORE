@@ -2,7 +2,6 @@ import { categoryGroups, isOnSale, isSoldOut, products, type CategorySlug, type 
 import { searchProducts } from "./search";
 
 export const PRICE_RANGES = [
-  { id: "0-100", label: "Menos de $100.000", min: 0, max: 99_999 },
   { id: "100-150", label: "$100.000 – $150.000", min: 100_000, max: 150_000 },
   { id: "150-200", label: "$150.000 – $200.000", min: 150_001, max: 200_000 },
   { id: "200-300", label: "$200.000 – $300.000", min: 200_001, max: 300_000 },
@@ -91,6 +90,5 @@ export function applyFilters(f: Filters): Product[] {
 
 export const SIZE_GROUPS = [
   { label: "shop.sizeClothes", sizes: ["S", "M", "L", "XL", "XXL"] },
-  { label: "shop.sizeJeans", sizes: ["28", "30", "32", "34", "36"] },
   { label: "shop.sizeShoes", sizes: ["38", "39", "40", "41", "42", "43"] },
 ];

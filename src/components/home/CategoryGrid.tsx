@@ -11,12 +11,12 @@ import { cn } from "@/lib/format";
 /** Editorial bento of categories. First two tiles are large. */
 export function CategoryGrid() {
   const { t, cat } = useI18n();
-  const order = ["camisetas", "conjuntos", "buzos", "sneakers", "joyeria", "chaquetas", "perfumeria", "accesorios", "jeans", "cargos"];
+  const order = ["camisetas", "sneakers", "buzos", "conjuntos"];
   const cats = order.map((s) => categories.find((c) => c.slug === s)!);
   return (
     <section className="mx-auto max-w-[1600px] px-4 py-16 sm:px-6 sm:py-28 lg:px-10" aria-labelledby="cats">
       <SectionHeading eyebrow={t("cats.eyebrow")} title={<span id="cats">{t("cats.t1")} <span className="text-outline">{t("cats.t2")}</span></span>} />
-      <div className="mt-9 grid grid-cols-2 gap-2 sm:mt-12 sm:gap-3 lg:grid-cols-4 lg:grid-rows-[repeat(3,minmax(0,260px))]">
+      <div className="mt-9 grid grid-cols-2 gap-2 sm:mt-12 sm:gap-3 lg:grid-cols-4">
         {cats.map((c, i) => {
           const n = products.filter((p) => p.category === c.slug).length;
           const big = i < 2;
@@ -25,7 +25,7 @@ export function CategoryGrid() {
               key={c.slug}
               delay={(i % 4) * 0.05}
               className={cn(
-                big ? "col-span-2 row-span-2 aspect-[5/4] sm:aspect-[16/11] lg:col-span-2 lg:row-span-2 lg:aspect-auto" : i < 6 ? "aspect-square lg:aspect-auto" : "aspect-square lg:hidden",
+                big ? "col-span-2 aspect-[5/4] sm:aspect-[16/11] lg:aspect-[4/3]" : "aspect-[4/5] lg:col-span-2 lg:aspect-[4/3]",
                 "relative",
               )}
             >
@@ -48,13 +48,6 @@ export function CategoryGrid() {
             </Reveal>
           );
         })}
-      </div>
-      <div className="mt-6 hidden flex-wrap gap-2 lg:flex">
-        {cats.slice(6).map((c) => (
-          <Link key={c.slug} href={`/shop?cat=${c.slug}`} className="border border-white/15 px-5 py-2.5 text-xs font-bold tracking-[0.2em] transition hover:border-acid hover:text-acid">
-            {cat(c.slug).toUpperCase()} →
-          </Link>
-        ))}
       </div>
     </section>
   );
