@@ -36,12 +36,16 @@ export type Product = {
   id: string;
   slug: string;
   name: string;
+  /** English name (used when the visitor switches to EN). */
+  nameEn?: string;
   category: CategorySlug;
   price: number;
   /** Previous price — when set and higher than price the product is on SALE. */
   compareAt?: number;
   description: string;
+  descriptionEn?: string;
   details: string[];
+  detailsEn?: string[];
   images: string[];
   colors: ColorOption[];
   sizes: SizeStock[];
@@ -64,7 +68,7 @@ export const categories: Category[] = [
   { slug: "jeans", label: "Jeans", group: "clothing", image: img("1542272604-787c3835535d") },
   { slug: "cargos", label: "Cargos", group: "clothing", image: img("1552902865-b72c031ac5ea") },
   { slug: "conjuntos", label: "Conjuntos", group: "clothing", image: "/products/jordan-set.jpg" },
-  { slug: "sneakers", label: "Sneakers", group: "sneakers", image: img("1603808033192-082d6919d3e1") },
+  { slug: "sneakers", label: "Tenis", group: "sneakers", image: img("1603808033192-082d6919d3e1") },
   { slug: "accesorios", label: "Accesorios", group: "accessories", image: img("1521369909029-2afed882baee") },
   { slug: "joyeria", label: "Joyería", group: "accessories", image: img("1602173574767-37ac01994b2a") },
   { slug: "perfumeria", label: "Perfumería", group: "fragrances", image: img("1588405748880-12d1d2a59f75") },
@@ -111,7 +115,10 @@ export const realProducts: Product[] = [
   {
     id: "r01",
     slug: "amiri-rhinestone-tee",
-    name: "Amiri Rhinestone Tee",
+    name: "Camiseta Amiri Pedrería",
+    nameEn: "Amiri Rhinestone Tee",
+    descriptionEn: "Black tee with a rhinestone monogram on the chest and a rhinestone script signature on the back. Shines without shouting.",
+    detailsEn: ["Rhinestones on front and back", "Heavyweight cotton", "Regular fit", "Wash inside out, cold, no dryer"],
     category: "camisetas",
     price: 159_900,
     priceToConfirm: true,
@@ -126,7 +133,10 @@ export const realProducts: Product[] = [
   {
     id: "r02",
     slug: "mixed-emotion-astronaut-tee",
-    name: "Mixed Emotion Astronaut Tee",
+    name: "Camiseta Mixed Emotion Astronauta",
+    nameEn: "Mixed Emotion Astronaut Tee",
+    descriptionEn: "Full-print astronaut graphic on the front, gothic rhinestone monogram and MIXED EMOTION rhinestone logo on the back.",
+    detailsEn: ["Full front print", "Rhinestone logo on the back", "Heavyweight cotton", "Wash inside out, cold"],
     category: "camisetas",
     price: 159_900,
     priceToConfirm: true,
@@ -141,7 +151,10 @@ export const realProducts: Product[] = [
   {
     id: "r03",
     slug: "hellstar-records-tee",
-    name: "Hellstar Records Tee",
+    name: "Camiseta Hellstar Records",
+    nameEn: "Hellstar Records Tee",
+    descriptionEn: "Flaming skull graphic with raised script lettering. Available in black and white.",
+    detailsEn: ["Raised puff print", "100% cotton", "Boxy fit", "Wash inside out, cold"],
     category: "camisetas",
     price: 159_900,
     priceToConfirm: true,
@@ -156,7 +169,10 @@ export const realProducts: Product[] = [
   {
     id: "r04",
     slug: "hellstar-heaven-tee",
-    name: "Hellstar Heaven Tee",
+    name: "Camiseta Hellstar Heaven",
+    nameEn: "Hellstar Heaven Tee",
+    descriptionEn: "“Is this what heaven sounds like?” — front graphic with fuchsia flame lettering. Black or white.",
+    detailsEn: ["Screen-printed front graphic", "100% cotton", "Boxy fit", "Wash inside out, cold"],
     category: "camisetas",
     price: 159_900,
     priceToConfirm: true,
@@ -171,7 +187,10 @@ export const realProducts: Product[] = [
   {
     id: "r05",
     slug: "godspeed-liberty-tee",
-    name: "Godspeed Liberty Tee",
+    name: "Camiseta Godspeed Libertad",
+    nameEn: "Godspeed Liberty Tee",
+    descriptionEn: "White tee with a Statue of Liberty collage and Godspeed lettering. A statement piece.",
+    detailsEn: ["Large-format front print", "100% cotton", "Regular fit", "Wash inside out, cold"],
     category: "camisetas",
     price: 159_900,
     priceToConfirm: true,
@@ -185,7 +204,10 @@ export const realProducts: Product[] = [
   {
     id: "r06",
     slug: "hugo-leopard-tee",
-    name: "Hugo Leopard Tee",
+    name: "Camiseta Hugo Leopardo",
+    nameEn: "Hugo Leopard Tee",
+    descriptionEn: "Bold red leopard on the front with the HUGO logo. In black or white.",
+    detailsEn: ["Front print", "100% cotton", "Regular fit", "Wash cold"],
     category: "camisetas",
     price: 129_900,
     priceToConfirm: true,
@@ -199,7 +221,10 @@ export const realProducts: Product[] = [
   {
     id: "r07",
     slug: "lacoste-signature-tee",
-    name: "Lacoste Signature Tee",
+    name: "Camiseta Lacoste Firma",
+    nameEn: "Lacoste Signature Tee",
+    descriptionEn: "White tee with embroidered crocodile and signature on the chest. Clean, classic, always works.",
+    detailsEn: ["Embroidered logo and signature", "100% cotton", "Regular fit", "Wash cold"],
     category: "camisetas",
     price: 129_900,
     priceToConfirm: true,
@@ -213,7 +238,10 @@ export const realProducts: Product[] = [
   {
     id: "r08",
     slug: "lacoste-crest-tee",
-    name: "Lacoste Crest Tee",
+    name: "Camiseta Lacoste Escudo",
+    nameEn: "Lacoste Crest Tee",
+    descriptionEn: "Royal blue with an embroidered Lacoste Paris crest on the chest. A color that stands out.",
+    detailsEn: ["Embroidered crest", "100% cotton", "Regular fit", "Wash cold"],
     category: "camisetas",
     price: 129_900,
     priceToConfirm: true,
@@ -227,7 +255,10 @@ export const realProducts: Product[] = [
   {
     id: "r09",
     slug: "coach-patch-tee",
-    name: "Coach Patch Tee",
+    name: "Camiseta Coach Parche",
+    nameEn: "Coach Patch Tee",
+    descriptionEn: "Heather grey with an embroidered circular Coach monogram patch. Old-money style with attitude.",
+    detailsEn: ["Applied monogram patch", "Heather cotton", "Regular fit", "Wash cold"],
     category: "camisetas",
     price: 129_900,
     priceToConfirm: true,
@@ -242,6 +273,9 @@ export const realProducts: Product[] = [
     id: "r10",
     slug: "buzo-calvin-klein",
     name: "Buzo Calvin Klein",
+    nameEn: "Calvin Klein Crewneck",
+    descriptionEn: "Black fleece crewneck with the Calvin Klein logo on the front. The premium closet staple.",
+    detailsEn: ["Brushed fleece", "Front printed logo", "Ribbed cuffs and hem", "Regular fit"],
     category: "buzos",
     price: 169_900,
     priceToConfirm: true,
@@ -256,7 +290,10 @@ export const realProducts: Product[] = [
   {
     id: "r11",
     slug: "saco-kenzo-tiger",
-    name: "Saco Kenzo Tiger",
+    name: "Saco Kenzo Tigre",
+    nameEn: "Kenzo Tiger Sweatshirt",
+    descriptionEn: "The classic Kenzo tiger in raised embroidery on a navy sweatshirt. All sizes, immediate delivery.",
+    detailsEn: ["Raised embroidered tiger", "Cotton fleece", "Ribbed collar with yellow trim", "Immediate delivery"],
     category: "buzos",
     price: 130_000,
     description: "El clásico tigre Kenzo bordado en alto relieve sobre saco azul oscuro. Todas las tallas, entrega inmediata.",
@@ -271,6 +308,9 @@ export const realProducts: Product[] = [
     id: "r12",
     slug: "conjunto-air-jordan",
     name: "Conjunto Air Jordan",
+    nameEn: "Air Jordan Short Set",
+    descriptionEn: "Short set: oversized tee + shorts with the AIR JORDAN band. Red or white detail.",
+    detailsEn: ["Tee + shorts", "Drawstring shorts with pockets", "Lightweight fleece", "Sold as a set"],
     category: "conjuntos",
     price: 189_900,
     priceToConfirm: true,
@@ -286,6 +326,9 @@ export const realProducts: Product[] = [
     id: "r13",
     slug: "conjunto-lacoste",
     name: "Conjunto Lacoste",
+    nameEn: "Lacoste Short Set",
+    descriptionEn: "Lacoste short set: tee with front logo + shorts with embroidered crocodile. Black or green.",
+    detailsEn: ["Tee + shorts", "Embroidered crocodile on the shorts", "Cotton", "Sold as a set"],
     category: "conjuntos",
     price: 189_900,
     priceToConfirm: true,
@@ -300,6 +343,9 @@ export const realProducts: Product[] = [
     id: "r14",
     slug: "conjunto-nike",
     name: "Conjunto Nike",
+    nameEn: "Nike Short Set",
+    descriptionEn: "Black short set: tee with outlined swoosh + shorts with front logo.",
+    detailsEn: ["Tee + shorts", "Drawstring shorts with pockets", "Cotton", "Sold as a set"],
     category: "conjuntos",
     price: 179_900,
     priceToConfirm: true,
@@ -316,7 +362,8 @@ const demoProducts: Product[] = [
   {
     id: "p01",
     slug: "oversized-heavy-tee",
-    name: "Oversized Heavy Tee",
+    name: "Camiseta Oversize Pesada",
+    nameEn: "Oversized Heavy Tee",
     category: "camisetas",
     price: 89_900,
     description:
@@ -333,7 +380,8 @@ const demoProducts: Product[] = [
   {
     id: "p02",
     slug: "essential-hoodie",
-    name: "Essential Hoodie",
+    name: "Hoodie Esencial",
+    nameEn: "Essential Hoodie",
     category: "buzos",
     price: 189_900,
     compareAt: 219_900,
@@ -351,7 +399,8 @@ const demoProducts: Product[] = [
   {
     id: "p03",
     slug: "urban-cargo-pants",
-    name: "Urban Cargo Pants",
+    name: "Pantalón Cargo Urbano",
+    nameEn: "Urban Cargo Pants",
     category: "cargos",
     price: 169_900,
     description:
@@ -368,7 +417,8 @@ const demoProducts: Product[] = [
   {
     id: "p04",
     slug: "premium-zip-jacket",
-    name: "Premium Zip Jacket",
+    name: "Chaqueta Premium con Cremallera",
+    nameEn: "Premium Zip Jacket",
     category: "chaquetas",
     price: 259_900,
     compareAt: 299_900,
@@ -385,7 +435,8 @@ const demoProducts: Product[] = [
   {
     id: "p05",
     slug: "street-set",
-    name: "Street Set",
+    name: "Conjunto Urbano",
+    nameEn: "Street Set",
     category: "conjuntos",
     price: 239_900,
     description: "Conjunto de sudadera: buzo crewneck + jogger a juego. Un outfit completo listo para salir.",
@@ -401,7 +452,8 @@ const demoProducts: Product[] = [
   {
     id: "p06",
     slug: "urban-sneakers",
-    name: "Urban Sneakers",
+    name: "Tenis Urbanos",
+    nameEn: "Urban Sneakers",
     category: "sneakers",
     price: 349_900,
     compareAt: 399_900,
@@ -417,7 +469,8 @@ const demoProducts: Product[] = [
   {
     id: "p07",
     slug: "silver-chain",
-    name: "Silver Chain",
+    name: "Cadena Plateada",
+    nameEn: "Silver Chain",
     category: "joyeria",
     price: 129_900,
     description: "Cadena tennis en acero inoxidable con acabado plata y piedras de circón. No se oxida, no pierde brillo.",
@@ -433,7 +486,8 @@ const demoProducts: Product[] = [
   {
     id: "p08",
     slug: "signature-fragrance",
-    name: "Signature Fragrance",
+    name: "Perfume Signature",
+    nameEn: "Signature Fragrance",
     category: "perfumeria",
     price: 219_900,
     description:
@@ -449,7 +503,8 @@ const demoProducts: Product[] = [
   {
     id: "p09",
     slug: "box-logo-tee-white",
-    name: "Box Tee White",
+    name: "Camiseta Boxy Blanca",
+    nameEn: "Box Tee White",
     category: "camisetas",
     price: 79_900,
     description: "Camiseta blanca de corte boxy, la pieza más limpia del drop. Algodón pesado que no transparenta.",
@@ -463,7 +518,8 @@ const demoProducts: Product[] = [
   {
     id: "p10",
     slug: "bones-graphic-tee",
-    name: "Bones Graphic Tee",
+    name: "Camiseta Gráfica Huesos",
+    nameEn: "Bones Graphic Tee",
     category: "camisetas",
     price: 94_900,
     compareAt: 109_900,
@@ -478,7 +534,8 @@ const demoProducts: Product[] = [
   {
     id: "p11",
     slug: "washed-denim-jacket",
-    name: "Washed Denim Jacket",
+    name: "Chaqueta de Jean Lavada",
+    nameEn: "Washed Denim Jacket",
     category: "chaquetas",
     price: 279_900,
     description: "Chaqueta de jean importada con lavado oscuro, cuello en contraste y costuras en hilo grueso.",
@@ -492,7 +549,8 @@ const demoProducts: Product[] = [
   {
     id: "p12",
     slug: "leather-biker-jacket",
-    name: "Leather Biker Jacket",
+    name: "Chaqueta Biker de Cuero",
+    nameEn: "Leather Biker Jacket",
     category: "chaquetas",
     price: 459_900,
     description: "Biker en cuero sintético premium con cremalleras asimétricas. Actitud pura.",
@@ -507,7 +565,8 @@ const demoProducts: Product[] = [
   {
     id: "p13",
     slug: "utility-field-jacket",
-    name: "Utility Field Jacket",
+    name: "Chaqueta Utilitaria",
+    nameEn: "Utility Field Jacket",
     category: "chaquetas",
     price: 289_900,
     description: "Chaqueta utilitaria con capucha oculta, cuatro bolsillos frontales y cordón en cintura.",
@@ -521,7 +580,8 @@ const demoProducts: Product[] = [
   {
     id: "p14",
     slug: "raw-denim-jeans",
-    name: "Raw Denim Jeans",
+    name: "Jean Denim Crudo",
+    nameEn: "Raw Denim Jeans",
     category: "jeans",
     price: 199_900,
     description: "Jean importado de denim rígido, corte straight. Se amolda a ti con cada uso.",
@@ -536,7 +596,8 @@ const demoProducts: Product[] = [
   {
     id: "p15",
     slug: "ripped-slim-jeans",
-    name: "Ripped Slim Jeans",
+    name: "Jean Slim Roto",
+    nameEn: "Ripped Slim Jeans",
     category: "jeans",
     price: 179_900,
     compareAt: 209_900,
@@ -551,7 +612,8 @@ const demoProducts: Product[] = [
   {
     id: "p16",
     slug: "khaki-cargo-jogger",
-    name: "Khaki Cargo Jogger",
+    name: "Jogger Cargo Caqui",
+    nameEn: "Khaki Cargo Jogger",
     category: "cargos",
     price: 149_900,
     description: "Jogger cargo en twill liviano con puño elástico. El balance entre cómodo y presentable.",
@@ -565,7 +627,8 @@ const demoProducts: Product[] = [
   {
     id: "p17",
     slug: "summer-short-set",
-    name: "Summer Short Set",
+    name: "Conjunto de Verano",
+    nameEn: "Summer Short Set",
     category: "conjuntos",
     price: 159_900,
     description: "Conjunto de pantaloneta: camisa de manga corta + short a juego. Para el calor sin perder el estilo.",
@@ -579,7 +642,8 @@ const demoProducts: Product[] = [
   {
     id: "p18",
     slug: "cuban-link-gold",
-    name: "Cuban Link Gold",
+    name: "Pulsera Cuban Dorada",
+    nameEn: "Cuban Link Gold",
     category: "joyeria",
     price: 169_900,
     compareAt: 199_900,
@@ -594,10 +658,11 @@ const demoProducts: Product[] = [
   {
     id: "p19",
     slug: "crescent-pendant",
-    name: "Crescent Pendant",
+    name: "Dije Media Luna",
+    nameEn: "Crescent Pendant",
     category: "joyeria",
     price: 109_900,
-    description: "Cadena fina con dije de media luna. Pieza para capas — combínala con la Silver Chain.",
+    description: "Cadena fina con dije de media luna. Pieza para capas — combínala con la Cadena Plateada.",
     details: ["Acero con baño oro", "Cadena 55 cm", "Dije 2,5 cm", "Hipoalergénico"],
     images: [img("1599643478518-a784e5dc4c8f"), img("1611085583191-a3b181a88401")],
     colors: [GOLD],
@@ -608,7 +673,8 @@ const demoProducts: Product[] = [
   {
     id: "p20",
     slug: "twisted-hoops",
-    name: "Twisted Hoops",
+    name: "Argollas Trenzadas",
+    nameEn: "Twisted Hoops",
     category: "joyeria",
     price: 79_900,
     description: "Argollas trenzadas gruesas con acabado dorado pulido. El detalle que cierra el fit.",
@@ -623,7 +689,8 @@ const demoProducts: Product[] = [
   {
     id: "p21",
     slug: "washed-dad-cap",
-    name: "Washed Dad Cap",
+    name: "Gorra Lavada",
+    nameEn: "Washed Dad Cap",
     category: "accesorios",
     price: 69_900,
     description: "Gorra de seis paneles en algodón lavado, visera curva y cierre metálico ajustable.",
@@ -637,7 +704,8 @@ const demoProducts: Product[] = [
   {
     id: "p22",
     slug: "rib-beanie",
-    name: "Rib Beanie",
+    name: "Gorro Tejido",
+    nameEn: "Rib Beanie",
     category: "accesorios",
     price: 49_900,
     description: "Gorro tejido en rib grueso con doblez. Fit ajustado sin apretar.",
@@ -651,7 +719,8 @@ const demoProducts: Product[] = [
   {
     id: "p23",
     slug: "daily-backpack",
-    name: "Daily Backpack",
+    name: "Morral Diario",
+    nameEn: "Daily Backpack",
     category: "accesorios",
     price: 189_900,
     description: "Morral de lona encerada con compartimento para portátil de 15\" y bolsillo frontal de acceso rápido.",
@@ -665,7 +734,8 @@ const demoProducts: Product[] = [
   {
     id: "p24",
     slug: "leather-bifold-wallet",
-    name: "Leather Bifold Wallet",
+    name: "Billetera de Cuero",
+    nameEn: "Leather Bifold Wallet",
     category: "accesorios",
     price: 89_900,
     description: "Billetera bifold en cuero genuino con seis ranuras para tarjetas. Delgada, cabe en cualquier bolsillo.",
@@ -679,7 +749,8 @@ const demoProducts: Product[] = [
   {
     id: "p25",
     slug: "retro-low-sneakers",
-    name: "Retro Low Sneakers",
+    name: "Tenis Retro Bajos",
+    nameEn: "Retro Low Sneakers",
     category: "sneakers",
     price: 289_900,
     description: "Low-top de lona y gamuza con franja lateral. Inspiración skate, comodidad de todos los días.",
@@ -694,7 +765,8 @@ const demoProducts: Product[] = [
   {
     id: "p26",
     slug: "stealth-runner",
-    name: "Stealth Runner",
+    name: "Tenis Runner Negros",
+    nameEn: "Stealth Runner",
     category: "sneakers",
     price: 379_900,
     description: "Runner all-black con upper de malla técnica y mediasuela de espuma de alto retorno.",
@@ -708,7 +780,8 @@ const demoProducts: Product[] = [
   {
     id: "p27",
     slug: "noir-oud-fragrance",
-    name: "Noir Oud",
+    name: "Perfume Noir Oud",
+    nameEn: "Noir Oud",
     category: "perfumeria",
     price: 249_900,
     compareAt: 289_900,
@@ -723,7 +796,8 @@ const demoProducts: Product[] = [
   {
     id: "p28",
     slug: "black-heavy-crewneck",
-    name: "Black Heavy Crewneck",
+    name: "Buzo Negro Pesado",
+    nameEn: "Black Heavy Crewneck",
     category: "buzos",
     price: 159_900,
     description: "Buzo crewneck negro de felpa pesada. Minimalista, sin logos gritones, puro peso y caída.",
@@ -738,7 +812,8 @@ const demoProducts: Product[] = [
   {
     id: "p29",
     slug: "cloud-crewneck",
-    name: "Cloud Crewneck",
+    name: "Buzo Cloud",
+    nameEn: "Cloud Crewneck",
     category: "buzos",
     price: 149_900,
     description: "Crewneck blanco hueso de felpa suave. La capa perfecta para noches frías en la ciudad.",
@@ -752,7 +827,8 @@ const demoProducts: Product[] = [
   {
     id: "p30",
     slug: "tailored-street-vest",
-    name: "Tailored Street Vest",
+    name: "Chaleco Sastre Urbano",
+    nameEn: "Tailored Street Vest",
     category: "chaquetas",
     price: 149_900,
     description: "Chaleco de corte sastre para mezclar con tees y jeans. El giro elegante del streetwear.",

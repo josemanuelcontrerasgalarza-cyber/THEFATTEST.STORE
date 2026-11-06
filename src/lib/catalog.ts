@@ -90,7 +90,7 @@ export function applyFilters(f: Filters): Product[] {
 }
 
 export const SIZE_GROUPS = [
-  { label: "Ropa", sizes: ["S", "M", "L", "XL", "XXL"] },
-  { label: "Jeans / cargos", sizes: ["28", "30", "32", "34", "36"] },
-  { label: "Calzado", sizes: ["38", "39", "40", "41", "42", "43"] },
+  { label: "shop.sizeClothes", sizes: ["S", "M", "L", "XL", "XXL"] },
+  { label: "shop.sizeJeans", sizes: ["28", "30", "32", "34", "36"] },
+  { label: "shop.sizeShoes", sizes: ["38", "39", "40", "41", "42", "43"] },
 ];

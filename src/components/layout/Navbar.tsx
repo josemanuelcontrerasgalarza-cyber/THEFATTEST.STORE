@@ -11,7 +11,9 @@ import { navLinks, siteConfig } from "@/lib/config";
 import { useCart } from "@/store/cart";
 import { useMounted } from "@/lib/use-mounted";
 import { cn } from "@/lib/format";
-import { InstagramIcon, TikTokIcon } from "@/components/ui/BrandIcons";
+import { InstagramIcon, TikTokIcon, WhatsAppIcon } from "@/components/ui/BrandIcons";
+import { waLink, waMessages } from "@/lib/whatsapp";
+import { LangToggle, useI18n } from "@/lib/i18n";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -21,6 +23,7 @@ export function Navbar() {
   const count = useCart((s) => s.items.reduce((n, i) => n + i.qty, 0));
   const openCart = useCart((s) => s.open);
   const mounted = useMounted();
+  const { t } = useI18n();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -49,7 +52,7 @@ export function Navbar() {
       >
         <nav className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-4 sm:px-6 lg:h-[72px] lg:px-10" aria-label="Principal">
           <div className="flex items-center gap-2 lg:hidden">
-            <button onClick={() => setMenuOpen(true)} aria-label="Abrir menú" aria-expanded={menuOpen} className="-ml-2 grid size-11 place-items-center">
+            <button onClick={() => setMenuOpen(true)} aria-label={t("a11y.openMenu")} aria-expanded={menuOpen} className="-ml-2 grid size-11 place-items-center">
               <Menu className="size-5" />
             </button>
           </div>
@@ -60,7 +63,7 @@ export function Navbar() {
             {navLinks.map((l) => {
               const active = l.href === pathname;
               return (
-                <li key={l.label}>
+                <li key={l.key}>
                   <Link
                     href={l.href}
                     className={cn(
@@ -68,8 +71,8 @@ export function Navbar() {
                       active && "text-bone",
                     )}
                   >
-                    {l.label === "NEW DROPS" && <span className="absolute -right-2.5 top-1.5 size-1.5 rounded-full bg-acid" aria-hidden />}
-                    {l.label}
+                    {l.key === "nav.new" && <span className="absolute -right-2.5 top-1.5 size-1.5 rounded-full bg-acid" aria-hidden />}
+                    {t(l.key)}
                     <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-bone transition-transform duration-300 ease-out-expo group-hover:scale-x-100" />
                   </Link>
                 </li>
@@ -78,13 +81,14 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center gap-0.5 sm:gap-1">
-            <button onClick={() => setSearchOpen(true)} aria-label="Buscar productos" className="grid size-11 place-items-center text-white/80 transition hover:text-bone">
+            <LangToggle className="mr-1 sm:mr-2" />
+            <button onClick={() => setSearchOpen(true)} aria-label={t("a11y.search")} className="grid size-11 place-items-center text-white/80 transition hover:text-bone">
               <Search className="size-[19px]" />
             </button>
-            <Link href="/account" aria-label="Mi cuenta y pedidos" className="hidden size-11 place-items-center text-white/80 transition hover:text-bone sm:grid">
+            <Link href="/account" aria-label={t("a11y.account")} className="hidden size-11 place-items-center text-white/80 transition hover:text-bone sm:grid">
               <User className="size-[19px]" />
             </Link>
-            <button onClick={openCart} aria-label={`Abrir carrito (${mounted ? count : 0} productos)`} className="relative -mr-2 grid size-11 place-items-center text-white/80 transition hover:text-bone">
+            <button onClick={openCart} aria-label={t("a11y.openCart", { n: mounted ? count : 0 })} className="relative -mr-2 grid size-11 place-items-center text-white/80 transition hover:text-bone">
               <ShoppingBag className="size-[19px]" />
               <AnimatePresence>
                 {mounted && count > 0 && (
@@ -115,27 +119,31 @@ export function Navbar() {
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
             role="dialog"
             aria-modal="true"
-            aria-label="Menú"
+            aria-label={t("a11y.menu")}
           >
             <div className="flex h-16 items-center justify-between px-4">
               <Logo className="text-[26px]" />
-              <button onClick={() => setMenuOpen(false)} aria-label="Cerrar menú" className="-mr-2 grid size-11 place-items-center">
+              <button onClick={() => setMenuOpen(false)} aria-label={t("a11y.closeMenu")} className="-mr-2 grid size-11 place-items-center">
                 <X className="size-6" />
               </button>
             </div>
+            <div className="px-6 pt-2"><LangToggle size="lg" /></div>
             <ul className="flex flex-1 flex-col justify-center gap-1 px-6">
               {navLinks.map((l, i) => (
-                <motion.li key={l.label} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}>
-                  <Link href={l.href} className="group flex items-center justify-between border-b border-white/10 py-3 font-display text-[44px] leading-none tracking-tight">
-                    <span className="transition-colors group-active:text-acid">{l.label}</span>
+                <motion.li key={l.key} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 + i * 0.05, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+                  <Link href={l.href} className="group flex items-center justify-between border-b border-white/10 py-3 font-display text-[clamp(34px,11vw,48px)] leading-none tracking-tight">
+                    <span className="transition-colors group-active:text-acid">{t(l.key)}</span>
                     <ArrowUpRight className="size-6 text-ash" />
                   </Link>
                 </motion.li>
               ))}
             </ul>
-            <div className="flex items-center justify-between border-t border-white/10 px-6 py-5">
-              <Link href="/account" className="font-mono text-xs tracking-[0.2em] text-ash">MI CUENTA / PEDIDOS</Link>
-              <div className="flex gap-4">
+            <div className="flex items-center justify-between border-t border-white/10 px-6 pb-[calc(env(safe-area-inset-bottom)+20px)] pt-5">
+              <Link href="/account" className="font-mono text-xs tracking-[0.2em] text-ash">{t("menu.account")}</Link>
+              <div className="flex items-center gap-5">
+                {waLink(waMessages.general()) && (
+                  <a href={waLink(waMessages.general())!} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="text-[#25D366]"><WhatsAppIcon className="size-5" /></a>
+                )}
                 {siteConfig.instagramUrl && (
                   <a href={siteConfig.instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon className="size-5" /></a>
                 )}

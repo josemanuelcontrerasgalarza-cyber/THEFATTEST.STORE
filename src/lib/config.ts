@@ -8,9 +8,9 @@ export const siteConfig = {
   name: "THEFATTEST",
   domain: "THEFATTEST.STORE",
   url: env(process.env.NEXT_PUBLIC_SITE_URL) ?? "https://thefattest.store",
-  tagline: "BUILT DIFFERENT. WORN DIFFERENT.",
+  tagline: "HECHO DIFERENTE. SE LLEVA DIFERENTE.",
   description:
-    "Streetwear, sneakers & essentials. Built for those who move different. Tienda online de ropa urbana, sneakers, joyería y perfumería en Colombia.",
+    "Ropa urbana, tenis y esenciales. Hecho para los que se mueven diferente. Tienda online de ropa urbana, sneakers, joyería y perfumería en Colombia.",
   established: 2026,
   currency: "COP",
   locale: "es-CO",
@@ -30,11 +30,11 @@ export const siteConfig = {
 } as const;
 
 export const navLinks = [
-  { label: "SHOP", href: "/shop" },
-  { label: "NEW DROPS", href: "/shop?new=1" },
-  { label: "CLOTHING", href: "/shop?group=clothing" },
-  { label: "SNEAKERS", href: "/shop?cat=sneakers" },
-  { label: "ACCESSORIES", href: "/shop?group=accessories" },
-  { label: "FRAGRANCES", href: "/shop?cat=perfumeria" },
-  { label: "ABOUT", href: "/about" },
+  { key: "nav.shop", label: "TIENDA", href: "/shop" },
+  { key: "nav.new", label: "LO NUEVO", href: "/shop?new=1" },
+  { key: "nav.clothing", label: "ROPA", href: "/shop?group=clothing" },
+  { key: "nav.sneakers", label: "TENIS", href: "/shop?cat=sneakers" },
+  { key: "nav.accessories", label: "ACCESORIOS", href: "/shop?group=accessories" },
+  { key: "nav.fragrances", label: "PERFUMES", href: "/shop?cat=perfumeria" },
+  { key: "nav.about", label: "NOSOTROS", href: "/about" },
 ] as const;

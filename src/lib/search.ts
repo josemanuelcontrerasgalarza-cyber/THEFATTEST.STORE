@@ -11,7 +11,7 @@ export function searchProducts(list: Product[], query: string): Product[] {
   const words = norm(query).split(/\s+/).filter(Boolean);
   if (!words.length) return list;
   return list.filter((p) => {
-    const hay = norm([p.name, getCategory(p.category)?.label, p.category, p.description, ...p.colors.map((c) => c.name)].join(" "));
+    const hay = norm([p.name, p.nameEn ?? "", getCategory(p.category)?.label, p.category, p.description, ...p.colors.map((c) => c.name)].join(" "));
     return words.every((w) => hay.includes(w));
   });
 }

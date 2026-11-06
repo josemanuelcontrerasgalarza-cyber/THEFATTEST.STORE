@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCategory, getProduct, isSoldOut, products, relatedProducts } from "@/lib/products";
 import { ProductView } from "@/components/product/ProductView";
 import { ProductCard } from "@/components/product/ProductCard";
+import { Breadcrumb, RelatedHeading } from "@/components/product/ProductChrome";
 import { siteConfig } from "@/lib/config";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -51,26 +51,14 @@ export default async function ProductPage({ params }: Props) {
     <>
       {!product.demo && <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />}
       <div className="mx-auto max-w-[1600px] px-4 pt-6 sm:px-6 lg:px-10">
-        <nav aria-label="Ruta" className="font-mono text-[11px] tracking-[0.15em] text-ash">
-          <ol className="flex flex-wrap items-center gap-2">
-            <li><Link href="/" className="hover:text-bone">INICIO</Link></li>
-            <li aria-hidden>/</li>
-            <li><Link href="/shop" className="hover:text-bone">SHOP</Link></li>
-            <li aria-hidden>/</li>
-            <li><Link href={`/shop?cat=${cat.slug}`} className="hover:text-bone">{cat.label.toUpperCase()}</Link></li>
-            <li aria-hidden>/</li>
-            <li className="text-bone" aria-current="page">{product.name.toUpperCase()}</li>
-          </ol>
-        </nav>
+        <Breadcrumb product={product} />
       </div>
 
       <ProductView product={product} />
 
-      <section className="mx-auto max-w-[1600px] border-t border-white/10 px-4 py-20 sm:px-6 lg:px-10" aria-labelledby="related">
-        <h2 id="related" className="font-display text-[clamp(40px,7vw,96px)] uppercase leading-[0.85] tracking-tight">
-          COMPLETA EL <span className="text-outline">FIT</span>
-        </h2>
-        <div className="mt-10 grid grid-cols-2 gap-x-3 gap-y-10 sm:gap-x-5 lg:grid-cols-4">
+      <section className="mx-auto max-w-[1600px] border-t border-white/10 px-4 py-14 sm:px-6 sm:py-20 lg:px-10" aria-labelledby="related">
+        <RelatedHeading />
+        <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:mt-10 sm:gap-y-10 sm:gap-x-5 lg:grid-cols-4">
           {related.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}
         </div>
       </section>

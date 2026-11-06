@@ -13,11 +13,14 @@ export type CartItem = {
   qty: number;
 };
 
+/** Result codes are translated in the UI with t(`cartMsg.${code}`, { n, size }). */
+export type AddResult = { ok: boolean; code?: "demo" | "soldout" | "limit" | "adjusted"; n?: number; size?: string };
+
 type CartState = {
   items: CartItem[];
   coupon: Coupon | null;
   isOpen: boolean;
-  add: (productId: string, size: string, color: string, qty?: number) => { ok: boolean; message?: string };
+  add: (productId: string, size: string, color: string, qty?: number) => AddResult;
   remove: (key: string) => void;
   setQty: (key: string, qty: number) => void;
   setSize: (key: string, size: string) => void;
@@ -42,20 +45,20 @@ export const useCart = create<CartState>()(
       isOpen: false,
 
       add: (productId, size, color, qty = 1) => {
-        if (getProductById(productId)?.demo) return { ok: false, message: "Producto de demostración: no está a la venta." };
+        if (getProductById(productId)?.demo) return { ok: false, code: "demo" };
         const max = maxQty(productId, size);
-        if (max <= 0) return { ok: false, message: "Esta talla está agotada." };
+        if (max <= 0) return { ok: false, code: "soldout" };
         const key = keyOf(productId, size, color);
         const existing = get().items.find((i) => i.key === key);
         const current = existing?.qty ?? 0;
         const next = Math.min(current + qty, max);
-        if (next === current) return { ok: false, message: `Solo quedan ${max} unidades en talla ${size}.` };
+        if (next === current) return { ok: false, code: "limit", n: max, size };
         set({
           items: existing
             ? get().items.map((i) => (i.key === key ? { ...i, qty: next } : i))
             : [...get().items, { key, productId, size, color, qty: next }],
         });
-        return { ok: true, message: next < current + qty ? `Ajustado al stock disponible (${max}).` : undefined };
+        return next < current + qty ? { ok: true, code: "adjusted", n: max } : { ok: true };
       },
 
       remove: (key) => set({ items: get().items.filter((i) => i.key !== key) }),

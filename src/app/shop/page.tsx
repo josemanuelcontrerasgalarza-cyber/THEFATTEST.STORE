@@ -7,10 +7,10 @@ type Props = { searchParams: Promise<Record<string, string | string[] | undefine
 
 export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
   const f = parseFilters(await searchParams);
-  const title = f.cats.length === 1 ? getCategory(f.cats[0])?.label ?? "Shop" : f.onlyNew ? "New Drops" : "Shop — Catálogo completo";
+  const title = f.cats.length === 1 ? getCategory(f.cats[0])?.label ?? "Tienda" : f.onlyNew ? "Lo nuevo" : "Tienda — Catálogo completo";
   return {
     title,
-    description: "Catálogo THEFATTEST: camisetas, buzos, chaquetas, jeans, cargos, conjuntos, sneakers, accesorios, joyería y perfumería. Envíos a toda Colombia.",
+    description: "Catálogo THEFATTEST: camisetas, buzos, chaquetas, jeans, cargos, conjuntos, tenis, accesorios, joyería y perfumería. Envíos a toda Colombia.",
     alternates: { canonical: "/shop" },
   };
 }

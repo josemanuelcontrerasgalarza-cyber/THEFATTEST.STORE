@@ -23,12 +23,12 @@ export default function HomePage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Hero />
-      <Marquee words={["BUILT DIFFERENT", "WORN DIFFERENT", "NO FOLLOWERS", "JUST INFLUENCE"]} />
+      <Marquee listKey="marquee.a" />
       <LatestDrop />
       <Services />
       <CategoryGrid />
       <BrandStory />
-      <Marquee inverted words={["STAY FATTEST", "THEFATTEST.STORE", "EST. 2026", "MOVE DIFFERENT"]} />
+      <Marquee inverted listKey="marquee.b" />
       <SocialProof />
     </>
   );
