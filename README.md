@@ -51,21 +51,24 @@ Para añadir un producto, copia uno de `realProducts`, pon sus fotos en `public/
 
 Envío gratis, tarifa fija y días de cambio se configuran en `src/lib/config.ts`.
 
-## Supabase (opcional)
+## Supabase (conectado)
 
-1. Crea un proyecto y ejecuta `supabase/migrations/20261106000000_init_store.sql`.
-2. Ejecuta `npm run db:seed-sql` para generar `supabase/seed.sql` desde el catálogo y luego ejecútalo.
-3. Pon la URL y la anon key en `.env.local`.
+La tienda usa el proyecto de Supabase **THEFATTEST.STORE** (`dqzjwdcwblizhpaeertg`), que ya está configurado:
 
-Las políticas de seguridad (RLS) funcionan así:
+- Tiene aplicada la migración `supabase/migrations/20261106000000_init_store.sql`.
+- Tiene cargadas las 10 categorías, los 14 productos reales con su stock por talla (70 filas) y los cupones `FATTEST10` y `DROP20K`.
+- La URL y la clave publishable vienen por defecto en `src/lib/supabase.ts`. Con las políticas RLS es seguro que estén en el navegador.
 
-- El público solo puede leer el catálogo activo.
-- Los pedidos solo se crean con la función `create_order()`. Esa función recalcula en el servidor los precios, el cupón y el envío, y descuenta el stock bloqueando la fila. Rechaza los productos demo.
-- Desde el navegador no se pueden leer los cupones. Se validan con `validate_coupon()`.
-- Al newsletter solo se le pueden añadir correos.
-- Los administradores son usuarios de Supabase Auth que estén en la tabla `admins`, y pueden gestionar todo. Para dar acceso: `insert into admins(user_id) values ('<uuid>')`.
+Qué hace cada parte:
 
-Si no configuras Supabase, los pedidos quedan en el navegador del cliente y WhatsApp es la confirmación real. El newsletter avisa que todavía no está conectado; no simula una suscripción.
+- Los pedidos se crean con la función `create_order()`. Esa función recalcula en el servidor los precios, el cupón y el envío, y descuenta el stock bloqueando la fila. Rechaza los productos demo, que tampoco se pueden añadir al carrito en la web.
+- Desde el navegador no se pueden leer los pedidos, los clientes ni los cupones. Los cupones se validan con `validate_coupon()`.
+- Al newsletter solo se le pueden añadir correos, en la tabla `newsletter_subscribers`.
+- Para ver los pedidos: Supabase → Table Editor → `orders` y `order_items`.
+- Los administradores son usuarios de Supabase Auth que estén en la tabla `admins`. Para dar acceso: `insert into admins(user_id) values ('<uuid>')`.
+- `npm run db:seed-sql` vuelve a generar `supabase/seed.sql` con todo el catálogo, para usarlo en otro proyecto.
+
+> El stock que muestra la web sale de `src/lib/products.ts`, y el stock real que se descuenta está en la tabla `inventory`. Cuando cambies cantidades, actualiza los dos (o conecta la web para que lea `inventory`).
 
 ## Pagos
 

@@ -65,7 +65,7 @@ export function ProductCard({ product, priority = false, index = 0 }: { product:
 
         <ProductBadges product={product} className="absolute left-2.5 top-2.5" />
 
-        {!sold && (
+        {!sold && !product.demo && (
           <>
             {/* Quick add trigger */}
             <button

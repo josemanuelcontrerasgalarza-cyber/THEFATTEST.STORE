@@ -197,7 +197,12 @@ export function ProductView({ product }: { product: Product }) {
           </AnimatePresence>
 
           {/* CTAs */}
-          {sold ? (
+          {product.demo ? (
+            <div className="mt-6">
+              <button disabled className="h-14 w-full bg-steel text-xs font-bold tracking-[0.25em] text-ash">PRODUCTO DEMO — NO DISPONIBLE</button>
+              <p className="mt-2 text-center text-xs text-ash">Muy pronto en stock. Escríbenos por WhatsApp si te interesa algo similar.</p>
+            </div>
+          ) : sold ? (
             <div className="mt-6 space-y-2">
               <button disabled className="h-14 w-full bg-steel text-xs font-bold tracking-[0.25em] text-ash">AGOTADO</button>
               {wa && <a href={wa} target="_blank" rel="noopener noreferrer" className="flex h-14 w-full items-center justify-center gap-2 border border-white/20 text-xs font-bold tracking-[0.2em] hover:border-bone"><WhatsAppIcon className="size-4" /> AVÍSENME CUANDO LLEGUE</a>}

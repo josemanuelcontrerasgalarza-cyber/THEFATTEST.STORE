@@ -11,7 +11,7 @@
 --   • Admins (rows in public.admins linked to auth.users) can manage everything.
 -- ════════════════════════════════════════════════════════════════════
 
-create extension if not exists "pgcrypto";
+create extension if not exists "pgcrypto" with schema extensions;
 
 -- ───────────── admins & helper ─────────────
 create table public.admins (
@@ -194,8 +194,9 @@ end $$;
 -- p_items:    [{slug, size, color, qty}]
 create or replace function public.create_order(p_customer jsonb, p_items jsonb, p_coupon text default null)
 returns table (code text, subtotal integer, discount integer, shipping integer, total integer)
-language plpgsql volatile security definer set search_path = public
+language plpgsql volatile security definer set search_path = public, extensions
 as $$
+#variable_conflict use_column
 declare
   v_customer uuid; v_order uuid; v_code text;
   v_sub integer := 0; v_disc integer := 0; v_ship integer := 0;

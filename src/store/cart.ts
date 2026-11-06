@@ -42,6 +42,7 @@ export const useCart = create<CartState>()(
       isOpen: false,
 
       add: (productId, size, color, qty = 1) => {
+        if (getProductById(productId)?.demo) return { ok: false, message: "Producto de demostración: no está a la venta." };
         const max = maxQty(productId, size);
         if (max <= 0) return { ok: false, message: "Esta talla está agotada." };
         const key = keyOf(productId, size, color);
@@ -92,7 +93,7 @@ export const useCart = create<CartState>()(
       partialize: (s) => ({ items: s.items, coupon: s.coupon }),
       // Drop items whose product no longer exists (catalog changes between visits).
       onRehydrateStorage: () => (state) => {
-        if (state) state.items = state.items.filter((i) => getProductById(i.productId));
+        if (state) state.items = state.items.filter((i) => { const p = getProductById(i.productId); return p && !p.demo; });
       },
     },
   ),
