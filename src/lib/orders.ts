@@ -22,6 +22,16 @@ export type Customer = {
   notes: string;
 };
 
+export type OrderConsent = {
+  /** Data-processing authorization (Ley 1581) — required. */
+  dataProcessing: true;
+  privacyVersion: string;
+  termsVersion: string;
+  /** Optional, separate commercial consent. */
+  marketing: boolean;
+  at: string;
+};
+
 export type OrderItem = {
   productId: string;
   slug: string;
@@ -43,6 +53,8 @@ export type Order = {
   discount: number;
   shipping: number;
   total: number;
+  /** Evidence of the authorizations given at checkout. */
+  consent?: OrderConsent;
   /** Where the order record lives. */
   storage: "supabase" | "local";
 };
@@ -80,6 +92,13 @@ export function getLocalOrder(code: string): Order | undefined {
   return getLocalOrders().find((o) => o.code === code);
 }
 
+/** Deletes the on-device copy of orders (does not touch the store's records). */
+export function clearLocalOrders() {
+  try {
+    localStorage.removeItem(LS_KEY);
+  } catch {}
+}
+
 export function updateLocalOrderStatus(code: string, status: OrderStatus) {
   saveLocalOrders(getLocalOrders().map((o) => (o.code === code ? { ...o, status } : o)));
 }
@@ -90,7 +109,8 @@ export function updateLocalOrderStatus(code: string, status: OrderStatus) {
  * With Supabase configured, the `create_order` RPC recomputes prices, coupon
  * and stock server-side (never trust browser totals) and returns the code.
  */
-export async function createOrder(customer: Customer, totals: CartTotals, coupon: Coupon | null): Promise<Order> {
+export async function createOrder(customer: Customer, totals: CartTotals, coupon: Coupon | null, consent: OrderConsent): Promise<Order> {
+  if (!consent?.dataProcessing) throw new Error("Falta la autorización de tratamiento de datos.");
   const items: OrderItem[] = totals.lines.map((l) => ({
     productId: l.productId,
     slug: l.product.slug,
@@ -111,6 +131,7 @@ export async function createOrder(customer: Customer, totals: CartTotals, coupon
     discount: totals.couponDiscount,
     shipping: totals.shipping,
     total: totals.total,
+    consent,
   };
 
   const sb = getSupabase();
@@ -125,6 +146,10 @@ export async function createOrder(customer: Customer, totals: CartTotals, coupon
         city: customer.city,
         address: customer.address,
         notes: customer.notes,
+        data_consent: consent.dataProcessing,
+        privacy_version: consent.privacyVersion,
+        terms_version: consent.termsVersion,
+        marketing_opt_in: consent.marketing,
       },
       p_items: items.map((i) => ({ slug: i.slug, size: i.size, color: i.color, qty: i.qty })),
       p_coupon: base.couponCode,

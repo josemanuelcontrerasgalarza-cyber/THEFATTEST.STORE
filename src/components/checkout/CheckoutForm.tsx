@@ -13,11 +13,12 @@ import { createOrder, type Customer } from "@/lib/orders";
 import { useMounted } from "@/lib/use-mounted";
 import { WhatsAppIcon } from "@/components/ui/BrandIcons";
 import { useI18n } from "@/lib/i18n";
+import { legalRoutes, POLICY } from "@/lib/legal";
 
 const empty: Customer = { fullName: "", phone: "", email: "", department: "", city: "", address: "", notes: "" };
-type Errors = Partial<Record<keyof Customer | "terms", string>>;
+type Errors = Partial<Record<keyof Customer | "terms" | "data", string>>;
 
-function validate(c: Customer, terms: boolean): Errors {
+function validate(c: Customer, terms: boolean, data: boolean): Errors {
   const e: Errors = {};
   if (c.fullName.trim().split(/\s+/).length < 2) e.fullName = "co.eName";
   const digits = c.phone.replace(/\D/g, "");
@@ -27,15 +28,15 @@ function validate(c: Customer, terms: boolean): Errors {
   if (c.city.trim().length < 2) e.city = "co.eCity";
   if (c.address.trim().length < 6) e.address = "co.eAddress";
   if (!terms) e.terms = "co.eTerms";
+  if (!data) e.data = "co.eData";
   return e;
 }
 
-const PAYMENTS = [
-  { id: "whatsapp", label: "co.payWa", desc: "co.payWaD", enabled: true },
-  { id: "mercadopago", label: "Mercado Pago", desc: "co.soon", enabled: false },
-  { id: "wompi", label: "Wompi (PSE, Nequi)", desc: "co.soon", enabled: false },
-  { id: "payu", label: "PayU", desc: "co.soon", enabled: false },
-];
+/** Only real, working payment flows are listed (no placeholder gateways). */
+const PAYMENTS = [{ id: "whatsapp", label: "co.payWa", desc: "co.payWaD", enabled: true }];
+
+/** Max lengths — mirrored server-side in create_order. */
+const MAX = { fullName: 120, phone: 20, email: 160, city: 80, address: 200, notes: 500 } as const;
 
 export function CheckoutForm() {
   const mounted = useMounted();
@@ -45,6 +46,11 @@ export function CheckoutForm() {
   const t = computeCart(items, coupon);
   const [c, setC] = useState<Customer>(empty);
   const [terms, setTerms] = useState(false);
+  const [dataAuth, setDataAuth] = useState(false);
+  const [marketing, setMarketing] = useState(false);
+  // Anti-spam: hidden honeypot field + minimum time on the form.
+  const [hp, setHp] = useState("");
+  const [startedAt] = useState(() => Date.now());
   const [errors, setErrors] = useState<Errors>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
@@ -68,7 +74,8 @@ export function CheckoutForm() {
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errs = validate(c, terms);
+    if (hp || Date.now() - startedAt < 2500) return; // bot: silently ignore
+    const errs = validate(c, terms, dataAuth);
     setErrors(errs);
     if (Object.keys(errs).length) {
       const first = Object.keys(errs)[0];
@@ -78,7 +85,8 @@ export function CheckoutForm() {
     setSubmitting(true);
     setSubmitError(null);
     try {
-      const order = await createOrder({ ...c, fullName: c.fullName.trim(), email: c.email.trim().toLowerCase() }, t, coupon);
+      const consent = { dataProcessing: true as const, privacyVersion: POLICY.privacy, termsVersion: POLICY.terms, marketing, at: new Date().toISOString() };
+      const order = await createOrder({ ...c, fullName: c.fullName.trim(), email: c.email.trim().toLowerCase() }, t, coupon, consent);
       clear();
       router.replace(`/checkout/confirmacion?pedido=${encodeURIComponent(order.code)}`);
     } catch (err) {
@@ -97,13 +105,13 @@ export function CheckoutForm() {
           <Section n="01" title={tr("co.s1")}>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field id="fullName" label={tr("co.name")} error={errors.fullName && tr(errors.fullName)} className="sm:col-span-2">
-                <input id="f-fullName" autoComplete="name" value={c.fullName} onChange={set("fullName")} className={input(errors.fullName)} />
+                <input id="f-fullName" autoComplete="name" maxLength={MAX.fullName} value={c.fullName} onChange={set("fullName")} className={input(errors.fullName)} />
               </Field>
               <Field id="phone" label={tr("co.phone")} error={errors.phone && tr(errors.phone)}>
-                <input id="f-phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="300 123 4567" value={c.phone} onChange={set("phone")} className={input(errors.phone)} />
+                <input id="f-phone" type="tel" inputMode="tel" autoComplete="tel" placeholder="300 123 4567" maxLength={MAX.phone} value={c.phone} onChange={set("phone")} className={input(errors.phone)} />
               </Field>
               <Field id="email" label={tr("co.email")} error={errors.email && tr(errors.email)}>
-                <input id="f-email" type="email" autoComplete="email" value={c.email} onChange={set("email")} className={input(errors.email)} />
+                <input id="f-email" type="email" autoComplete="email" maxLength={MAX.email} value={c.email} onChange={set("email")} className={input(errors.email)} />
               </Field>
             </div>
           </Section>
@@ -117,13 +125,13 @@ export function CheckoutForm() {
                 </select>
               </Field>
               <Field id="city" label={tr("co.city")} error={errors.city && tr(errors.city)}>
-                <input id="f-city" autoComplete="address-level2" value={c.city} onChange={set("city")} className={input(errors.city)} />
+                <input id="f-city" autoComplete="address-level2" maxLength={MAX.city} value={c.city} onChange={set("city")} className={input(errors.city)} />
               </Field>
               <Field id="address" label={tr("co.address")} error={errors.address && tr(errors.address)} className="sm:col-span-2">
-                <input id="f-address" autoComplete="street-address" placeholder={tr("co.addressPh")} value={c.address} onChange={set("address")} className={input(errors.address)} />
+                <input id="f-address" autoComplete="street-address" placeholder={tr("co.addressPh")} maxLength={MAX.address} value={c.address} onChange={set("address")} className={input(errors.address)} />
               </Field>
               <Field id="notes" label={tr("co.notes")} className="sm:col-span-2">
-                <textarea id="f-notes" rows={3} placeholder={tr("co.notesPh")} value={c.notes} onChange={set("notes")} className={cn(input(), "h-auto py-3")} />
+                <textarea id="f-notes" rows={3} placeholder={tr("co.notesPh")} maxLength={MAX.notes} value={c.notes} onChange={set("notes")} className={cn(input(), "h-auto py-3")} />
               </Field>
             </div>
           </Section>
@@ -174,14 +182,34 @@ export function CheckoutForm() {
               <div className="flex justify-between border-t border-white/10 pt-3 text-lg font-semibold"><dt>{tr("cart.total")}</dt><dd className="font-mono">{formatCOP(t.total)}</dd></div>
             </dl>
 
-            <label className="mt-5 flex cursor-pointer items-start gap-2 text-xs text-ash">
-              <input id="f-terms" type="checkbox" checked={terms} onChange={(e) => { setTerms(e.target.checked); setErrors((p) => ({ ...p, terms: undefined })); }} className="mt-0.5 accent-[#C8FF00]" />
-              <span>
-                {tr("co.accept1")} <a href="/info/terminos" target="_blank" className="underline hover:text-bone">{tr("co.terms")}</a> {tr("co.accept2")}{" "}
-                <a href="/info/privacidad" target="_blank" className="underline hover:text-bone">{tr("co.privacy")}</a> {tr("co.law")}
-              </span>
-            </label>
-            {errors.terms && <p className="mt-1 text-xs text-danger">{tr(errors.terms)}</p>}
+            <div className="mt-5 space-y-3 border-t border-white/10 pt-5">
+              <Check
+                id="f-terms"
+                checked={terms}
+                onChange={(v) => { setTerms(v); setErrors((p) => ({ ...p, terms: undefined })); }}
+                error={errors.terms && tr(errors.terms)}
+              >
+                {tr("co.accept1")} <a href={legalRoutes.terms} target="_blank" className="underline hover:text-bone">{tr("co.terms")}</a> {tr("co.accept2")}{" "}
+                <a href={legalRoutes.returns} target="_blank" className="underline hover:text-bone">{tr("co.privacy")}</a>{tr("co.law")} <span className="text-acid">*</span>
+              </Check>
+              <Check
+                id="f-data"
+                checked={dataAuth}
+                onChange={(v) => { setDataAuth(v); setErrors((p) => ({ ...p, data: undefined })); }}
+                error={errors.data && tr(errors.data)}
+              >
+                {tr("co.dataAuth")} <a href={legalRoutes.privacy} target="_blank" className="underline hover:text-bone">{tr("co.dataPolicy")}</a>. <span className="text-acid">*</span>
+              </Check>
+              <Check id="f-marketing" checked={marketing} onChange={setMarketing}>
+                {tr("co.marketing")}
+              </Check>
+              <p className="text-[10px] text-white/40"><span className="text-acid">*</span> {tr("co.required")}</p>
+            </div>
+            {/* Honeypot: invisible to people, bots fill it. */}
+            <div aria-hidden className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              <label htmlFor="f-website">Website</label>
+              <input id="f-website" tabIndex={-1} autoComplete="off" value={hp} onChange={(e) => setHp(e.target.value)} />
+            </div>
 
             {submitError && (
               <p role="alert" className="mt-4 flex items-start gap-2 text-sm text-danger"><AlertCircle className="mt-0.5 size-4 shrink-0" /> {submitError}</p>
@@ -220,6 +248,18 @@ function Field({ id, label, error, className, children }: { id: string; label: s
       <label htmlFor={`f-${id}`} className="mb-1.5 block text-xs text-ash">{label}</label>
       {children}
       {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+    </div>
+  );
+}
+
+function Check({ id, checked, onChange, error, children }: { id: string; checked: boolean; onChange: (v: boolean) => void; error?: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label htmlFor={id} className="flex cursor-pointer items-start gap-2.5 text-xs leading-relaxed text-ash">
+        <input id={id} type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} aria-invalid={Boolean(error)} className="mt-0.5 size-4 shrink-0 accent-[#C8FF00]" />
+        <span>{children}</span>
+      </label>
+      {error && <p className="ml-6 mt-1 text-xs text-danger">{error}</p>}
     </div>
   );
 }

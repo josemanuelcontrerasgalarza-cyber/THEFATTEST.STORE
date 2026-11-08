@@ -275,7 +275,7 @@ export function ProductView({ product }: { product: Product }) {
             </Accordion>
             <Accordion id="returns" open={open} setOpen={setOpen} title={t("pdp.returns")} icon={<RefreshCcw className="size-4" />}>
               {t("pdp.returnsText", { days: siteConfig.returnsDays })}{" "}
-              <Link href="/info/cambios" className="underline hover:text-bone">{t("pdp.policy")}</Link>.
+              <Link href="/cambios-y-devoluciones" className="underline hover:text-bone">{t("pdp.policy")}</Link>.
             </Accordion>
           </div>
         </div>

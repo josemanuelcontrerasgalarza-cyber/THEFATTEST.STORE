@@ -25,7 +25,8 @@ npm run build && npm start   # producción
 | `/checkout/confirmacion` | Pedido `TF-AAMMDD-XXXX` + botón que abre WhatsApp con el pedido ya escrito |
 | `/account` | Pedidos hechos desde ese dispositivo |
 | `/admin` | Vista previa del back-office: resumen, inventario por talla, pedidos y su estado, cupones y estado de la configuración (sin indexar) |
-| `/about`, `/info/*` | Historia de la marca, FAQ, envíos, cambios, contacto, privacidad y términos |
+| `/about`, `/info/*` | Historia de la marca, FAQ, envíos y contacto |
+| Legal | `/politica-de-privacidad`, `/terminos-y-condiciones`, `/cambios-y-devoluciones`, `/politica-de-cookies`, `/informacion-legal` + gestor de consentimiento de cookies. Ver `docs/LEGAL-PENDIENTES.md` y `docs/AUDITORIA-PRIVACIDAD-SEGURIDAD.md` |
 | SEO | Metadata, Open Graph, `sitemap.xml`, `robots.txt`, JSON-LD de tienda y producto |
 
 ## Catálogo

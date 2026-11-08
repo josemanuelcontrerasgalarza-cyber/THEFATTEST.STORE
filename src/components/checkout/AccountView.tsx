@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { getLocalOrders, type Order } from "@/lib/orders";
+import { clearLocalOrders, getLocalOrders, type Order } from "@/lib/orders";
 import { formatCOP } from "@/lib/format";
 import { orderMessage, waLink } from "@/lib/whatsapp";
 import { useI18n } from "@/lib/i18n";
@@ -10,7 +10,14 @@ import { useI18n } from "@/lib/i18n";
 export function AccountView() {
   const [orders, setOrders] = useState<Order[] | null>(null);
   const { t, lang } = useI18n();
+  const [wiped, setWiped] = useState(false);
   useEffect(() => setOrders(getLocalOrders()), []);
+  const wipe = () => {
+    if (!window.confirm(t("acc.wipeConfirm"))) return;
+    clearLocalOrders();
+    setOrders([]);
+    setWiped(true);
+  };
 
   return (
     <div className="mx-auto max-w-4xl px-4 pb-24 pt-10 sm:px-6">
@@ -53,6 +60,10 @@ export function AccountView() {
           })}
         </ul>
       )}
+      {orders && orders.length > 0 && (
+        <button onClick={wipe} className="mt-8 text-xs text-ash underline underline-offset-4 transition hover:text-danger">{t("acc.wipe")}</button>
+      )}
+      {wiped && <p role="status" className="mt-6 text-xs text-acid">{t("acc.wiped")}</p>}
     </div>
   );
 }

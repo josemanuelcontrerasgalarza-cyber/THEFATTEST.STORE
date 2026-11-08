@@ -9,6 +9,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { Toaster } from "@/components/ui/Toaster";
 import { I18nProvider } from "@/lib/i18n";
+import { CookieConsent } from "@/components/legal/CookieConsent";
 
 const anton = Anton({ weight: "400", subsets: ["latin"], variable: "--font-anton", display: "swap" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <CartDrawer />
         <WhatsAppFloat />
         <Toaster />
+        <CookieConsent />
         </I18nProvider>
       </body>
     </html>

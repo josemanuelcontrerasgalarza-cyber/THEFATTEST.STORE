@@ -1,12 +1,13 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { en, es, type Dict } from "./dict";
 import type { Product } from "@/lib/products";
+import { hasConsent, LANG_KEY } from "@/lib/consent";
 
 export type Lang = "es" | "en";
 const DICTS: Record<Lang, Dict> = { es, en };
-const KEY = "thefattest-lang";
+const KEY = LANG_KEY;
 
 type Vars = Record<string, string | number>;
 type Ctx = {
@@ -36,20 +37,34 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Lang>("es");
 
   useEffect(() => {
+    // The language is only remembered with "preferences" consent.
     try {
-      const saved = localStorage.getItem(KEY);
+      const saved = hasConsent("preferences") ? localStorage.getItem(KEY) : null;
       if (saved === "en" || saved === "es") setLangState(saved);
     } catch {}
   }, []);
 
+  // When consent is granted later, persist the language already chosen in this visit.
   useEffect(() => {
+    const onConsent = () => {
+      try {
+        if (hasConsent("preferences")) localStorage.setItem(KEY, langRef.current);
+      } catch {}
+    };
+    window.addEventListener("tf-consent", onConsent);
+    return () => window.removeEventListener("tf-consent", onConsent);
+  }, []);
+
+  const langRef = useRef<Lang>("es");
+  useEffect(() => {
+    langRef.current = lang;
     document.documentElement.lang = lang === "en" ? "en" : "es-CO";
   }, [lang]);
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);
     try {
-      localStorage.setItem(KEY, l);
+      if (hasConsent("preferences")) localStorage.setItem(KEY, l);
     } catch {}
   }, []);
 

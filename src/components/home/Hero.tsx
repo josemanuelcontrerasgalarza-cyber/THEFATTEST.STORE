@@ -11,7 +11,7 @@ import { formatCOP } from "@/lib/format";
 
 /** Hero slideshow: full-color, slow zoom, each product slide links straight to the product. */
 const SLIDES: { src: string; slug?: string; pos: string }[] = [
-  { src: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?fit=crop&crop=faces", pos: "60% 20%" },
+  { src: "/products/hero-campaign.jpg", pos: "60% 20%" },
   { src: "/products/jordan4-thunder.jpg", slug: "air-jordan-4-thunder", pos: "55% 40%" },
   { src: "/products/af1-red.jpg", slug: "nike-air-force-1", pos: "50% 50%" },
   { src: "/products/kenzo-tiger.jpg", slug: "saco-kenzo-tiger", pos: "50% 45%" },
